@@ -9,7 +9,6 @@ const SectionsIndex = ({ sections }) => {
     { key: 'id', label: 'ID' },
     { key: 'name', label: 'Name' },
     { key: 'class_id', label: 'Class ID' },
-    { key: 'status', label: 'Status' },
     { key: 'actions', label: 'Actions' },
   ];
 

@@ -5,7 +5,11 @@ import { Inertia } from '@inertiajs/inertia';
 
 const fields = [
   { name: 'name', label: 'Name' },
-  { name: 'status', label: 'Status' },
+  { name: 'numeric_value', label: 'Numeric Value' },
+  { name: 'admission_fee', label: 'Admission Fee' },
+  { name: 'class_teacher_id', label: 'Class Teacher ID' },
+  { name: 'recurring_type', label: 'Recurring Type' },
+  { name: 'recurring_fee', label: 'Recurring Fee' },
 ];
 
 const ClassesEdit = ({ classItem }) => {

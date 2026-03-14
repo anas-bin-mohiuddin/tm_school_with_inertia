@@ -5,7 +5,6 @@ import { Inertia } from '@inertiajs/inertia';
 
 const fields = [
   { name: 'name', label: 'Name' },
-  { name: 'status', label: 'Status' },
 ];
 
 const SubjectsCreate = () => {

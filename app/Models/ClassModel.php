@@ -2,12 +2,13 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Teacher;
 
 class ClassModel extends Model
 {
     protected $table = 'classes';
     protected $fillable = [
-        'school_id', 'name', 'status'
+        'school_id', 'name', 'numeric_value', 'class_teacher_id', 'admission_fee', 'recurring_type','recurring_fee'
     ];
 
     public function school()
@@ -23,6 +24,11 @@ class ClassModel extends Model
     public function classSubjects()
     {
         return $this->hasMany(ClassSubject::class);
+    }
+
+    public function teacher()
+    {
+        return $this->belongsTo(Teacher::class, 'class_teacher_id');
     }
 
     public function scopeAccessibleSchools($query, $schoolIds)

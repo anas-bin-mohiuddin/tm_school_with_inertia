@@ -8,7 +8,8 @@ const ClassesIndex = ({ classes }) => {
   const columns = [
     { key: 'id', label: 'ID' },
     { key: 'name', label: 'Name' },
-    { key: 'status', label: 'Status' },
+    { key: 'numeric_value', label: 'Numeric Value' },
+    { key: 'teacher_name', label: 'Class Teacher' },
     { key: 'actions', label: 'Actions' },
   ];
 
@@ -22,8 +23,9 @@ const ClassesIndex = ({ classes }) => {
     }
   };
 
-  const data = classes.data.map((classItem) => ({
+  const data = classes.data.map(({ teacher, ...classItem }) => ({
     ...classItem,
+    teacher_name: teacher?.name ?? '—',
     actions: (
       <>
         <button onClick={() => handleEdit(classItem.id)} className="mr-2 text-blue-600">Edit</button>

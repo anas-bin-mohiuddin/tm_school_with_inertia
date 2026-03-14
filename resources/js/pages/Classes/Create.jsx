@@ -3,13 +3,23 @@ import Sidebar from '../../Components/Sidebar';
 import Form from '../../Components/Form';
 import { Inertia } from '@inertiajs/inertia';
 
-const fields = [
-  { name: 'name', label: 'Name' },
-  { name: 'status', label: 'Status' },
-];
-
-const ClassesCreate = () => {
+const ClassesCreate = ({ teachers }) => {
   const [values, setValues] = useState({});
+
+  const fields = [
+    { name: 'name', label: 'Name' },
+    { name: 'numeric_value', label: 'Numeric Value' },
+
+    {
+      name: 'class_teacher_id',
+      label: 'Class Teacher',
+      type: 'select',
+      options: (teachers || []).map((t) => ({ value: t.id, label: t.name })),
+    },
+    { name: 'admission_fee', label: 'Admission Fee' },
+    { name: 'recurring_type', label: 'Recurring Type' },
+    { name: 'recurring_fee', label: 'Recurring Fee' },
+  ];
 
   const handleChange = (e) => {
     setValues({ ...values, [e.target.name]: e.target.value });

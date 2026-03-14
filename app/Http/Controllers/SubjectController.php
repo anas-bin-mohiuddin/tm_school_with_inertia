@@ -27,10 +27,8 @@ class SubjectController extends Controller
     {
         $school = School::find($this->currentSchoolId);
         $data = $request->validate([
-            'name' => 'required',
-            'status' => 'required',
+            'name' => 'required'
         ]);
-        $data['school_id'] = $school->id;
         Subject::create($data);
         return redirect()->route('subjects.index');
     }
@@ -46,7 +44,6 @@ class SubjectController extends Controller
     {
         $data = $request->validate([
             'name' => 'required',
-            'status' => 'required',
         ]);
         $subject->update($data);
         return redirect()->route('subjects.index');

@@ -3,13 +3,12 @@ import Sidebar from '../../Components/Sidebar';
 import Form from '../../Components/Form';
 import { Inertia } from '@inertiajs/inertia';
 
-const fields = [
-  { name: 'class_id', label: 'Class ID', type: 'number' },
-  { name: 'name', label: 'Name' },
-  { name: 'status', label: 'Status' },
-];
-
-const SectionsCreate = () => {
+const SectionsCreate = ({ classes }) => {
+  const classOptions = classes.map((c) => ({ value: c.id, label: c.name }));
+  const fields = [
+    { name: 'class_id', label: 'Class', type: 'select', options: classOptions },
+    { name: 'name', label: 'Name' },
+  ];
   const [values, setValues] = useState({});
 
   const handleChange = (e) => {

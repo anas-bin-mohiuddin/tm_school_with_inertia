@@ -17,10 +17,6 @@ return new class extends Migration
 
             $table->id();
 
-            $table->foreignId('school_id')
-                ->constrained()
-                ->cascadeOnDelete();
-
             $table->string('name')->nullable();
 
             $table->integer('numeric_value')->nullable();
@@ -30,10 +26,13 @@ return new class extends Migration
                 ->constrained('teachers')
                 ->nullOnDelete();
 
-            $table->decimal('admission_fee',8,2);
-            $table->decimal('recurring_fee',8,2);
+            $table->decimal('admission_fee',8,2)->nullable();
+            $table->decimal('recurring_fee',8,2)->nullable();
 
-            $table->string('recurring_type');
+            $table->string('recurring_type')->nullable();
+            $table->foreignId('school_id')
+                ->constrained()
+                ->cascadeOnDelete();
 
             $table->timestamps();
         });

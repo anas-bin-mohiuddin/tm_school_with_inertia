@@ -6,11 +6,12 @@ import { Inertia } from '@inertiajs/inertia';
 
 const TeachersIndex = ({ teachers }) => {
   const columns = [
-  { name: 'name', label: 'Name' },
-  { name: 'designation', label: 'Designation' },
-  { name: 'joining_date', label: 'Joining Date', type: 'date' },
-  { name: 'qualification', label: 'Qualification' },
-  { name: 'profile_photo', label: 'Profile Photo', type: 'file' },
+    { key: 'name', label: 'Name' },
+    { key: 'designation', label: 'Designation' },
+    { key: 'joining_date', label: 'Joining Date' },
+    { key: 'qualification', label: 'Qualification' },
+    { key: 'profile_photo', label: 'Profile Photo' },
+    { key: 'actions', label: 'Actions' },
   ];
 
   const handleEdit = (id) => {

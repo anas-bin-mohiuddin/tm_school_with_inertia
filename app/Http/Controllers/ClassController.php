@@ -3,6 +3,7 @@ namespace App\Http\Controllers;
 
 use App\Models\ClassModel;
 use App\Models\School;
+use App\Models\Teacher;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
@@ -14,7 +15,7 @@ class ClassController extends Controller
     {
         $school = School::find($this->currentSchoolId);
         $schoolIds = $school->getAccessibleSchoolIds();
-        $classes = ClassModel::accessibleSchools($schoolIds)->paginate(20);
+        $classes = ClassModel::accessibleSchools($schoolIds)->with('teacher:id,name')->paginate(20);
         return Inertia::render('Classes/Index', [
             'classes' => $classes
         ]);
@@ -22,7 +23,12 @@ class ClassController extends Controller
 
     public function create()
     {
-        return Inertia::render('Classes/Create');
+        $school = School::find($this->currentSchoolId);
+        $schoolIds = $school->getAccessibleSchoolIds();
+        $teachers = Teacher::accessibleSchools($schoolIds)->get(['id', 'name']);
+        return Inertia::render('Classes/Create', [
+            'teachers' => $teachers,
+        ]);
     }
 
     public function store(Request $request)
@@ -30,7 +36,11 @@ class ClassController extends Controller
         $school = School::find($this->currentSchoolId);
         $data = $request->validate([
             'name' => 'required',
-            'status' => 'required',
+            'numeric_value' => 'nullable|integer',
+            'admission_fee' => 'nullable|numeric',
+            'class_teacher_id' => 'nullable|exists:teachers,id',
+            'recurring_type' => 'nullable',
+            'recurring_fee' => 'nullable|numeric',
         ]);
         $data['school_id'] = $school->id;
         ClassModel::create($data);

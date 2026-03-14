@@ -8,7 +8,6 @@ const SubjectsIndex = ({ subjects }) => {
   const columns = [
     { key: 'id', label: 'ID' },
     { key: 'name', label: 'Name' },
-    { key: 'status', label: 'Status' },
     { key: 'actions', label: 'Actions' },
   ];
 

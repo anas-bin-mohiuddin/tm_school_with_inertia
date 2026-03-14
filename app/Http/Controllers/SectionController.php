@@ -1,6 +1,7 @@
 <?php
 namespace App\Http\Controllers;
 
+use App\Models\ClassModel;
 use App\Models\Section;
 use App\Models\School;
 use Illuminate\Http\Request;
@@ -20,7 +21,12 @@ class SectionController extends Controller
 
     public function create()
     {
-        return Inertia::render('Sections/Create');
+        $school = School::find($this->currentSchoolId);
+        $schoolIds = $school->getAccessibleSchoolIds();
+        $classes = ClassModel::accessibleSchools($schoolIds)->get(['id', 'name']);
+        return Inertia::render('Sections/Create', [
+            'classes' => $classes,
+        ]);
     }
 
     public function store(Request $request)
@@ -29,7 +35,6 @@ class SectionController extends Controller
         $data = $request->validate([
             'class_id' => 'required|integer',
             'name' => 'required',
-            'status' => 'required',
         ]);
         $data['school_id'] = $school->id;
         Section::create($data);
@@ -48,7 +53,6 @@ class SectionController extends Controller
         $data = $request->validate([
             'class_id' => 'required|integer',
             'name' => 'required',
-            'status' => 'required',
         ]);
         $section->update($data);
         return redirect()->route('sections.index');
