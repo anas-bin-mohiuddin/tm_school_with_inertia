@@ -29,6 +29,7 @@ class SubjectController extends Controller
         $data = $request->validate([
             'name' => 'required'
         ]);
+        $data['school_id'] = $school->id;
         Subject::create($data);
         return redirect()->route('subjects.index');
     }

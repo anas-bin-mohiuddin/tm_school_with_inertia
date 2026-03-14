@@ -7,10 +7,9 @@ import { Inertia } from '@inertiajs/inertia';
 const ClassSubjectsIndex = ({ classSubjects }) => {
   const columns = [
     { key: 'id', label: 'ID' },
-    { key: 'class_id', label: 'Class ID' },
-    { key: 'subject_id', label: 'Subject ID' },
-    { key: 'teacher_id', label: 'Teacher ID' },
-    { key: 'status', label: 'Status' },
+    { key: 'class_name', label: 'Class' },
+    { key: 'section_name', label: 'Section' },
+    { key: 'subject_name', label: 'Subject' },
     { key: 'actions', label: 'Actions' },
   ];
 
@@ -26,6 +25,8 @@ const ClassSubjectsIndex = ({ classSubjects }) => {
 
   const data = classSubjects.data.map((cs) => ({
     ...cs,
+    class_name: cs.class?.name ?? '—',
+    subject_name: cs.subject?.name ?? '—',
     actions: (
       <>
         <button onClick={() => handleEdit(cs.id)} className="mr-2 text-blue-600">Edit</button>

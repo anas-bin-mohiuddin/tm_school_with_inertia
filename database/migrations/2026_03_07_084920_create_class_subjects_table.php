@@ -16,18 +16,17 @@ return new class extends Migration
         Schema::create('class_subjects', function (Blueprint $table) {
             $table->id();
 
-            $table->foreignId('class_id')->constrained()->cascadeOnDelete();
+            $table->foreignId('school_id')->constrained()->cascadeOnDelete();
 
+            $table->foreignId('class_id')->constrained()->cascadeOnDelete();
+            $table->foreignId('section_id')->constrained()->cascadeOnDelete();
             $table->foreignId('subject_id')->constrained()->cascadeOnDelete();
 
-            $table->foreignId('teacher_id')
-                ->nullable()
-                ->constrained('teachers')
-                ->nullOnDelete();
+            $table->string('status')->default('active');
 
             $table->timestamps();
 
-            $table->unique(['class_id','subject_id']);
+            $table->unique(['class_id', 'subject_id']);
         });
 
         Schema::enableForeignKeyConstraints();

@@ -1,8 +1,11 @@
 <?php
 namespace App\Http\Controllers;
 
+use App\Models\ClassModel;
 use App\Models\ClassSubject;
 use App\Models\School;
+use App\Models\Section;
+use App\Models\Subject;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
@@ -14,7 +17,9 @@ class ClassSubjectController extends Controller
     {
         $school = School::find($this->currentSchoolId);
         $schoolIds = $school->getAccessibleSchoolIds();
-        $classSubjects = ClassSubject::accessibleSchools($schoolIds)->paginate(20);
+        $classSubjects = ClassSubject::accessibleSchools($schoolIds)
+            ->with(['class:id,name', 'subject:id,name'])
+            ->paginate(20);
         return Inertia::render('ClassSubjects/Index', [
             'classSubjects' => $classSubjects
         ]);
@@ -22,17 +27,21 @@ class ClassSubjectController extends Controller
 
     public function create()
     {
-        return Inertia::render('ClassSubjects/Create');
+        $school = School::find($this->currentSchoolId);
+        $schoolIds = $school->getAccessibleSchoolIds();
+        return Inertia::render('ClassSubjects/Create', [
+            'classes'  => ClassModel::accessibleSchools($schoolIds)->get(['id', 'name']),
+            'subjects' => Subject::accessibleSchools($schoolIds)->get(['id', 'name']),
+        ]);
     }
 
     public function store(Request $request)
     {
         $school = School::find($this->currentSchoolId);
         $data = $request->validate([
-            'class_id' => 'required|integer',
-            'subject_id' => 'required|integer',
-            'teacher_id' => 'required|integer',
-            'status' => 'required',
+            'class_id'   => 'required|exists:classes,id',
+            'subject_id' => 'required|exists:subjects,id',
+            'status'     => 'nullable|string',
         ]);
         $data['school_id'] = $school->id;
         ClassSubject::create($data);
@@ -41,18 +50,21 @@ class ClassSubjectController extends Controller
 
     public function edit(ClassSubject $classSubject)
     {
+        $school = School::find($this->currentSchoolId);
+        $schoolIds = $school->getAccessibleSchoolIds();
         return Inertia::render('ClassSubjects/Edit', [
-            'classSubject' => $classSubject
+            'classSubject' => $classSubject,
+            'classes'      => ClassModel::accessibleSchools($schoolIds)->get(['id', 'name']),
+            'subjects'     => Subject::accessibleSchools($schoolIds)->get(['id', 'name']),
         ]);
     }
 
     public function update(Request $request, ClassSubject $classSubject)
     {
         $data = $request->validate([
-            'class_id' => 'required|integer',
-            'subject_id' => 'required|integer',
-            'teacher_id' => 'required|integer',
-            'status' => 'required',
+            'class_id'   => 'required|exists:classes,id',
+            'subject_id' => 'required|exists:subjects,id',
+            'status'     => 'nullable|string',
         ]);
         $classSubject->update($data);
         return redirect()->route('class-subjects.index');

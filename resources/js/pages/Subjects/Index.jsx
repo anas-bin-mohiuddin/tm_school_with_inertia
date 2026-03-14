@@ -37,7 +37,10 @@ const SubjectsIndex = ({ subjects }) => {
       <div className="flex-1 ml-64 p-8 bg-white min-h-screen">
         <div className="flex items-center justify-between mb-6">
           <h1 className="text-2xl font-bold">Subjects</h1>
-          <button onClick={() => Inertia.visit('/subjects/create')} className="px-4 py-2 bg-black text-white rounded-lg font-semibold shadow hover:bg-gray-900 transition">+ Create Subject</button>
+          <div className="flex gap-2">
+            <button onClick={() => Inertia.visit('/class-subjects')} className="px-4 py-2 bg-white border border-black text-black rounded-lg font-semibold shadow hover:bg-gray-100 transition">Subject Assignments</button>
+            <button onClick={() => Inertia.visit('/subjects/create')} className="px-4 py-2 bg-black text-white rounded-lg font-semibold shadow hover:bg-gray-900 transition">+ Create Subject</button>
+          </div>
         </div>
         <Table columns={columns} data={data} />
         <Pagination
