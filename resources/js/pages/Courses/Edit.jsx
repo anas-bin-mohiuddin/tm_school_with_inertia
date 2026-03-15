@@ -4,8 +4,10 @@ import Form from '../../Components/Form';
 import { Inertia } from '@inertiajs/inertia';
 
 const fields = [
-  { name: 'name', label: 'Name' },
-  { name: 'status', label: 'Status' },
+  { name: 'name', label: 'Name' }, 
+  { name: 'admission_fee', label: 'Admission Fee' },
+  { name: 'recurring_type', label: 'Recurring Type' },
+  { name: 'recurring_fee', label: 'Recurring Fee' },
 ];
 
 const CoursesEdit = ({ course }) => {

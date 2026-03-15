@@ -9,7 +9,6 @@ const BatchTeachersShow = ({ batchTeacher }) => (
       <div className="space-y-3 bg-gray-50 rounded-xl p-6 shadow">
         <div><strong>Course Batch ID:</strong> {batchTeacher.course_batch_id}</div>
         <div><strong>Teacher ID:</strong> {batchTeacher.teacher_id}</div>
-        <div><strong>Status:</strong> {batchTeacher.status}</div>
       </div>
     </div>
   </div>

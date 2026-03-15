@@ -5,7 +5,9 @@ import { Inertia } from '@inertiajs/inertia';
 
 const fields = [
   { name: 'name', label: 'Name' },
-  { name: 'status', label: 'Status' },
+  { name: 'admission_fee', label: 'Admission Fee' },
+  { name: 'recurring_type', label: 'Recurring Type' },
+  { name: 'recurring_fee', label: 'Recurring Fee' },
 ];
 
 const CoursesCreate = () => {

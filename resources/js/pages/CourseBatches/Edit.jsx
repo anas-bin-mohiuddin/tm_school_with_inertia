@@ -3,14 +3,21 @@ import Sidebar from '../../Components/Sidebar';
 import Form from '../../Components/Form';
 import { Inertia } from '@inertiajs/inertia';
 
-const fields = [
-  { name: 'course_id', label: 'Course ID', type: 'number' },
-  { name: 'name', label: 'Name' },
-  { name: 'status', label: 'Status' },
-];
+const CourseBatchesEdit = ({ courseBatch, courses }) => {
+  const fields = [
+    { name: 'course_id',  label: 'Course',     type: 'select', options: courses.map((c) => ({ value: c.id, label: c.name })) },
+    { name: 'name',       label: 'Name' },
+    { name: 'start_date', label: 'Start Date', type: 'date' },
+    { name: 'end_date',   label: 'End Date',   type: 'date' },
+    { name: 'start_time', label: 'Start Time', type: 'time' },
+    { name: 'end_time',   label: 'End Time',   type: 'time' },
+  ];
 
-const CourseBatchesEdit = ({ courseBatch }) => {
-  const [values, setValues] = useState(courseBatch);
+  const [values, setValues] = useState({
+    ...courseBatch,
+    start_time: courseBatch.start_time ? courseBatch.start_time.slice(0, 5) : '',
+    end_time:   courseBatch.end_time   ? courseBatch.end_time.slice(0, 5)   : '',
+  });
 
   const handleChange = (e) => {
     setValues({ ...values, [e.target.name]: e.target.value });

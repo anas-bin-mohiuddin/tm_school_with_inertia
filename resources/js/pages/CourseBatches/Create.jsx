@@ -3,13 +3,16 @@ import Sidebar from '../../Components/Sidebar';
 import Form from '../../Components/Form';
 import { Inertia } from '@inertiajs/inertia';
 
-const fields = [
-  { name: 'course_id', label: 'Course ID', type: 'number' },
-  { name: 'name', label: 'Name' },
-  { name: 'status', label: 'Status' },
-];
+const CourseBatchesCreate = ({ courses }) => {
+  const fields = [
+    { name: 'course_id',  label: 'Course',     type: 'select', options: courses.map((c) => ({ value: c.id, label: c.name })) },
+    { name: 'name',       label: 'Name' },
+    { name: 'start_date', label: 'Start Date', type: 'date' },
+    { name: 'end_date',   label: 'End Date',   type: 'date' },
+    { name: 'start_time', label: 'Start Time', type: 'time' },
+    { name: 'end_time',   label: 'End Time',   type: 'time' },
+  ];
 
-const CourseBatchesCreate = () => {
   const [values, setValues] = useState({});
 
   const handleChange = (e) => {

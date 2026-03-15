@@ -30,7 +30,10 @@ class CourseController extends Controller
         $school = School::find($this->currentSchoolId);
         $data = $request->validate([
             'name' => 'required',
-            'status' => 'required',
+            'admission_fee' => 'nullable|numeric',
+            'recurring_type' => 'nullable|string',
+            'recurring_fee' => 'nullable|numeric',
+
         ]);
         $data['school_id'] = $school->id;
         Course::create($data);
@@ -48,7 +51,9 @@ class CourseController extends Controller
     {
         $data = $request->validate([
             'name' => 'required',
-            'status' => 'required',
+            'admission_fee' => 'nullable|numeric',
+            'recurring_type' => 'nullable|string',
+            'recurring_fee' => 'nullable|numeric',
         ]);
         $course->update($data);
         return redirect()->route('courses.index');

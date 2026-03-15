@@ -26,6 +26,7 @@ const ClassSubjectsIndex = ({ classSubjects }) => {
   const data = classSubjects.data.map((cs) => ({
     ...cs,
     class_name: cs.class?.name ?? '—',
+    section_name: cs.section?.name ?? '—',
     subject_name: cs.subject?.name ?? '—',
     actions: (
       <>

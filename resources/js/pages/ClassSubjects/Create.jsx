@@ -4,16 +4,24 @@ import Form from '../../Components/Form';
 import { Inertia } from '@inertiajs/inertia';
 
 
-const ClassSubjectsCreate = ({ classes, subjects }) => {
+const ClassSubjectsCreate = ({ classes, subjects, sections }) => {
   const [values, setValues] = useState({});
+
+  const filteredSections = sections.filter((s) => String(s.class_id) === String(values.class_id));
 
   const fields = [
     { name: 'class_id',   label: 'Class',   type: 'select', options: classes.map((c) => ({ value: c.id, label: c.name })) },
+    { name: 'section_id', label: 'Section', type: 'select', options: filteredSections.map((s) => ({ value: s.id, label: s.name })) },
     { name: 'subject_id', label: 'Subject', type: 'select', options: subjects.map((s) => ({ value: s.id, label: s.name })) },
   ];
 
   const handleChange = (e) => {
-    setValues({ ...values, [e.target.name]: e.target.value });
+    const { name, value } = e.target;
+    setValues((prev) => ({
+      ...prev,
+      [name]: value,
+      ...(name === 'class_id' ? { section_id: '' } : {}),
+    }));
   };
 
   const handleSubmit = (e) => {

@@ -24,8 +24,14 @@ class ClassSubject extends Model
         return $this->belongsTo(School::class);
     }
 
+    public function section()
+    {
+        return $this->belongsTo(Section::class);
+    }
+
     public function scopeAccessibleSchools($query, $schoolIds)
     {
         return $query->whereIn('school_id', $schoolIds);
     }
-}
+
+    }

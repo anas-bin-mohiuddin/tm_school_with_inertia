@@ -7,9 +7,9 @@ import { Inertia } from '@inertiajs/inertia';
 const BatchTeachersIndex = ({ batchTeachers }) => {
   const columns = [
     { key: 'id', label: 'ID' },
-    { key: 'course_batch_id', label: 'Course Batch ID' },
-    { key: 'teacher_id', label: 'Teacher ID' },
-    { key: 'status', label: 'Status' },
+    { key: 'course_name', label: 'Course' },
+    { key: 'batch_name', label: 'Batch' },
+    { key: 'teacher_name', label: 'Teacher' },
     { key: 'actions', label: 'Actions' },
   ];
 
@@ -25,6 +25,9 @@ const BatchTeachersIndex = ({ batchTeachers }) => {
 
   const data = batchTeachers.data.map((bt) => ({
     ...bt,
+    course_name: bt.course_batch?.course?.name ?? '—',
+    batch_name:  bt.course_batch?.name ?? '—',
+    teacher_name: bt.teacher?.name ?? '—',
     actions: (
       <>
         <button onClick={() => handleEdit(bt.id)} className="mr-2 text-blue-600">Edit</button>

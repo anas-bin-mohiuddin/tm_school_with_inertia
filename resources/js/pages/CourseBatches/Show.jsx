@@ -9,7 +9,10 @@ const CourseBatchesShow = ({ courseBatch }) => (
       <div className="space-y-3 bg-gray-50 rounded-xl p-6 shadow">
         <div><strong>Course ID:</strong> {courseBatch.course_id}</div>
         <div><strong>Name:</strong> {courseBatch.name}</div>
-        <div><strong>Status:</strong> {courseBatch.status}</div>
+        <div><strong>Start Date:</strong> {courseBatch.start_date}</div>
+        <div><strong>End Date:</strong> {courseBatch.end_date}</div>
+        <div><strong>Start Time:</strong> {courseBatch.start_time}</div>
+        <div><strong>End Time:</strong> {courseBatch.end_time}</div>
       </div>
     </div>
   </div>

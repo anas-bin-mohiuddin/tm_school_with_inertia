@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 class CourseBatch extends Model
 {
     protected $fillable = [
-        'course_id', 'school_id', 'name', 'status'
+        'course_id', 'name', 'start_date', 'end_date', 'start_time', 'end_time'
     ];
 
     public function course()
@@ -26,6 +26,6 @@ class CourseBatch extends Model
 
     public function scopeAccessibleSchools($query, $schoolIds)
     {
-        return $query->whereIn('school_id', $schoolIds);
+        return $query->whereHas('course', fn($q) => $q->whereIn('school_id', $schoolIds));
     }
 }

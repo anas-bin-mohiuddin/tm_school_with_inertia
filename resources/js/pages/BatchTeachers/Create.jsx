@@ -3,17 +3,24 @@ import Sidebar from '../../Components/Sidebar';
 import Form from '../../Components/Form';
 import { Inertia } from '@inertiajs/inertia';
 
-const fields = [
-  { name: 'course_batch_id', label: 'Course Batch ID', type: 'number' },
-  { name: 'teacher_id', label: 'Teacher ID', type: 'number' },
-  { name: 'status', label: 'Status' },
-];
-
-const BatchTeachersCreate = () => {
+const BatchTeachersCreate = ({ courses, courseBatches, teachers }) => {
   const [values, setValues] = useState({});
 
+  const filteredBatches = courseBatches.filter((b) => String(b.course_id) === String(values.course_id));
+
+  const fields = [
+    { name: 'course_id',      label: 'Course',       type: 'select', options: courses.map((c) => ({ value: c.id, label: c.name })) },
+    { name: 'course_batch_id', label: 'Batch',        type: 'select', options: filteredBatches.map((b) => ({ value: b.id, label: b.name })) },
+    { name: 'teacher_id',     label: 'Teacher',      type: 'select', options: teachers.map((t) => ({ value: t.id, label: t.name })) },
+  ];
+
   const handleChange = (e) => {
-    setValues({ ...values, [e.target.name]: e.target.value });
+    const { name, value } = e.target;
+    setValues((prev) => ({
+      ...prev,
+      [name]: value,
+      ...(name === 'course_id' ? { course_batch_id: '' } : {}),
+    }));
   };
 
   const handleSubmit = (e) => {

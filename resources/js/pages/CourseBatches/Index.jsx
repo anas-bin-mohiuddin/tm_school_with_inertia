@@ -9,7 +9,10 @@ const CourseBatchesIndex = ({ courseBatches }) => {
     { key: 'id', label: 'ID' },
     { key: 'course_id', label: 'Course ID' },
     { key: 'name', label: 'Name' },
-    { key: 'status', label: 'Status' },
+    { key: 'start_date', label: 'Start Date' },
+    { key: 'end_date', label: 'End Date' },
+    { key: 'start_time', label: 'Start Time' },
+    { key: 'end_time', label: 'End Time' },
     { key: 'actions', label: 'Actions' },
   ];
 

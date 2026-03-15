@@ -1,6 +1,7 @@
 <?php
 namespace App\Http\Controllers;
 
+use App\Models\Course;
 use App\Models\CourseBatch;
 use App\Models\School;
 use Illuminate\Http\Request;
@@ -20,35 +21,46 @@ class CourseBatchController extends Controller
 
     public function create()
     {
-        return Inertia::render('CourseBatches/Create');
+        $school = School::find($this->currentSchoolId);
+        $schoolIds = $school->getAccessibleSchoolIds();
+        return Inertia::render('CourseBatches/Create', [
+            'courses' => Course::accessibleSchools($schoolIds)->get(['id', 'name']),
+        ]);
     }
 
     public function store(Request $request)
     {
-        $school = School::find($this->currentSchoolId);
         $data = $request->validate([
-            'course_id' => 'required|integer',
+            'course_id' => 'required|exists:courses,id',
+            'start_date' => 'nullable|date',
+            'end_date' => 'nullable|date',
+            'start_time' => 'nullable|date_format:H:i',
+            'end_time' => 'nullable|date_format:H:i',
             'name' => 'required',
-            'status' => 'required',
         ]);
-        $data['school_id'] = $school->id;
         CourseBatch::create($data);
         return redirect()->route('course-batches.index');
     }
 
     public function edit(CourseBatch $courseBatch)
     {
+        $school = School::find($this->currentSchoolId);
+        $schoolIds = $school->getAccessibleSchoolIds();
         return Inertia::render('CourseBatches/Edit', [
-            'courseBatch' => $courseBatch
+            'courseBatch' => $courseBatch,
+            'courses'     => Course::accessibleSchools($schoolIds)->get(['id', 'name']),
         ]);
     }
 
     public function update(Request $request, CourseBatch $courseBatch)
     {
         $data = $request->validate([
-            'course_id' => 'required|integer',
+            'course_id' => 'required|exists:courses,id',
             'name' => 'required',
-            'status' => 'required',
+            'start_date' => 'nullable|date',
+            'end_date' => 'nullable|date',
+            'start_time' => 'nullable|date_format:H:i',
+            'end_time' => 'nullable|date_format:H:i',
         ]);
         $courseBatch->update($data);
         return redirect()->route('course-batches.index');

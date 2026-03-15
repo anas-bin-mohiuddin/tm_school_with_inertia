@@ -27,7 +27,7 @@ return new class extends Migration
 
                 $table->decimal('recurring_fee',10,2)->nullable();
 
-                $table->string('recurring_type'); 
+                $table->string('recurring_type')->nullable(); 
                 // monthly / weekly / one_time
 
                 $table->timestamps();

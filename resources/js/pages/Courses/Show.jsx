@@ -8,7 +8,6 @@ const CoursesShow = ({ course }) => (
       <h1 className="text-2xl font-bold mb-6">Course Details</h1>
       <div className="space-y-3 bg-gray-50 rounded-xl p-6 shadow">
         <div><strong>Name:</strong> {course.name}</div>
-        <div><strong>Status:</strong> {course.status}</div>
       </div>
     </div>
   </div>

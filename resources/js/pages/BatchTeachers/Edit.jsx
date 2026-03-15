@@ -3,17 +3,29 @@ import Sidebar from '../../Components/Sidebar';
 import Form from '../../Components/Form';
 import { Inertia } from '@inertiajs/inertia';
 
-const fields = [
-  { name: 'course_batch_id', label: 'Course Batch ID', type: 'number' },
-  { name: 'teacher_id', label: 'Teacher ID', type: 'number' },
-  { name: 'status', label: 'Status' },
-];
-
-const BatchTeachersEdit = ({ batchTeacher }) => {
+const BatchTeachersEdit = ({ batchTeacher, courses, courseBatches, teachers }) => {
   const [values, setValues] = useState(batchTeacher);
 
+  const filteredBatches = courseBatches.filter((b) => String(b.course_id) === String(values.course_id));
+
+  // Derive current course_id from the loaded batch if not set
+  const currentCourseId = values.course_id
+    ?? courseBatches.find((b) => b.id === batchTeacher.course_batch_id)?.course_id
+    ?? '';
+
+  const fields = [
+    { name: 'course_id',       label: 'Course',  type: 'select', options: courses.map((c) => ({ value: c.id, label: c.name })) },
+    { name: 'course_batch_id', label: 'Batch',   type: 'select', options: courseBatches.filter((b) => String(b.course_id) === String(currentCourseId)).map((b) => ({ value: b.id, label: b.name })) },
+    { name: 'teacher_id',      label: 'Teacher', type: 'select', options: teachers.map((t) => ({ value: t.id, label: t.name })) },
+  ];
+
   const handleChange = (e) => {
-    setValues({ ...values, [e.target.name]: e.target.value });
+    const { name, value } = e.target;
+    setValues((prev) => ({
+      ...prev,
+      [name]: value,
+      ...(name === 'course_id' ? { course_batch_id: '' } : {}),
+    }));
   };
 
   const handleSubmit = (e) => {

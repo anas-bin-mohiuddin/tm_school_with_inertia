@@ -18,7 +18,7 @@ class ClassSubjectController extends Controller
         $school = School::find($this->currentSchoolId);
         $schoolIds = $school->getAccessibleSchoolIds();
         $classSubjects = ClassSubject::accessibleSchools($schoolIds)
-            ->with(['class:id,name', 'subject:id,name'])
+            ->with(['class:id,name', 'subject:id,name', 'section:id,name'])
             ->paginate(20);
         return Inertia::render('ClassSubjects/Index', [
             'classSubjects' => $classSubjects
@@ -30,8 +30,9 @@ class ClassSubjectController extends Controller
         $school = School::find($this->currentSchoolId);
         $schoolIds = $school->getAccessibleSchoolIds();
         return Inertia::render('ClassSubjects/Create', [
-            'classes'  => ClassModel::accessibleSchools($schoolIds)->get(['id', 'name']),
-            'subjects' => Subject::accessibleSchools($schoolIds)->get(['id', 'name']),
+            'classes'   => ClassModel::accessibleSchools($schoolIds)->get(['id', 'name']),
+            'subjects'  => Subject::accessibleSchools($schoolIds)->get(['id', 'name']),
+            'sections'  => Section::accessibleSchools($schoolIds)->get(['id', 'class_id', 'name']),
         ]);
     }
 
@@ -41,6 +42,7 @@ class ClassSubjectController extends Controller
         $data = $request->validate([
             'class_id'   => 'required|exists:classes,id',
             'subject_id' => 'required|exists:subjects,id',
+            'section_id' => 'nullable|exists:sections,id',
             'status'     => 'nullable|string',
         ]);
         $data['school_id'] = $school->id;
@@ -56,6 +58,7 @@ class ClassSubjectController extends Controller
             'classSubject' => $classSubject,
             'classes'      => ClassModel::accessibleSchools($schoolIds)->get(['id', 'name']),
             'subjects'     => Subject::accessibleSchools($schoolIds)->get(['id', 'name']),
+            'sections'     => Section::accessibleSchools($schoolIds)->get(['id', 'class_id', 'name']),
         ]);
     }
 
@@ -64,6 +67,7 @@ class ClassSubjectController extends Controller
         $data = $request->validate([
             'class_id'   => 'required|exists:classes,id',
             'subject_id' => 'required|exists:subjects,id',
+            'section_id' => 'nullable|exists:sections,id',
             'status'     => 'nullable|string',
         ]);
         $classSubject->update($data);

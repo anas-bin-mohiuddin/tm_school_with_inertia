@@ -8,7 +8,9 @@ const CoursesIndex = ({ courses }) => {
   const columns = [
     { key: 'id', label: 'ID' },
     { key: 'name', label: 'Name' },
-    { key: 'status', label: 'Status' },
+    { key: 'admission_fee', label: 'Admission Fee' },
+    { key: 'recurring_type', label: 'Recurring Type' },
+    { key: 'recurring_fee', label: 'Recurring Fee' },
     { key: 'actions', label: 'Actions' },
   ];
 
