@@ -4,32 +4,47 @@ import Table from '../../Components/Table';
 import Pagination from '../../Components/Pagination';
 import { Inertia } from '@inertiajs/inertia';
 
+const STATUS_BADGE = {
+  paid:    'bg-green-100 text-green-800',
+  unpaid:  'bg-red-100 text-red-800',
+  partial: 'bg-yellow-100 text-yellow-800',
+};
+
 const InvoicesIndex = ({ invoices }) => {
   const columns = [
     { key: 'id', label: 'ID' },
-    { key: 'enrollment_id', label: 'Enrollment ID' },
-    { key: 'type', label: 'Type' },
-    { key: 'amount', label: 'Amount' },
-    { key: 'status', label: 'Status' },
+    { key: 'student_name', label: 'Student' },
+    { key: 'enrollment_type', label: 'Enrollment' },
+    { key: 'type', label: 'Invoice Type' },
+    { key: 'billing_term', label: 'Billing Term' },
+    { key: 'total_amount', label: 'Amount' },
+    { key: 'status_badge', label: 'Status' },
     { key: 'actions', label: 'Actions' },
   ];
 
-  const handleEdit = (id) => {
-    Inertia.visit(`/invoices/${id}/edit`);
-  };
+  const handleEdit = (id) => Inertia.visit(`/invoices/${id}/edit`);
 
   const handleDelete = (id) => {
-    if (confirm('Delete invoice?')) {
+    if (confirm('Delete this invoice?')) {
       Inertia.delete(`/invoices/${id}`);
     }
   };
 
-  const data = invoices.data.map((invoice) => ({
-    ...invoice,
+  const data = invoices.data.map((inv) => ({
+    ...inv,
+    student_name: inv.enrollment?.student
+      ? `${inv.enrollment.student.first_name} ${inv.enrollment.student.last_name}`
+      : '—',
+    enrollment_type: inv.enrollment?.type ?? '—',
+    status_badge: (
+      <span className={`px-2 py-1 rounded-full text-xs font-semibold ${STATUS_BADGE[inv.status] ?? 'bg-gray-100 text-gray-600'}`}>
+        {inv.status}
+      </span>
+    ),
     actions: (
       <>
-        <button onClick={() => handleEdit(invoice.id)} className="mr-2 text-blue-600">Edit</button>
-        <button onClick={() => handleDelete(invoice.id)} className="text-red-600">Delete</button>
+        <button onClick={() => handleEdit(inv.id)} className="mr-2 text-blue-600">Edit</button>
+        <button onClick={() => handleDelete(inv.id)} className="text-red-600">Delete</button>
       </>
     ),
   }));

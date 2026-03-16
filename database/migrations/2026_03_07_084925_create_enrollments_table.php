@@ -28,8 +28,8 @@ return new class extends Migration
             $table->foreign('course_batch_id')->references('id')->on('course_batches');
             $table->integer('roll_number')->nullable();
             $table->date('admission_date')->nullable();
-            $table->decimal('admission_fee', 10, 2)->nullable();
-            $table->decimal('monthly_fee', 10, 2)->nullable();
+            $table->decimal('original_admission_fee', 10, 2)->nullable();
+            $table->decimal('original_recurring_fee',10,2)->nullable(); 
             $table->string('status')->nullable();
             $table->bigInteger('school_id');
             $table->timestamps();

@@ -7,32 +7,39 @@ import { Inertia } from '@inertiajs/inertia';
 const PaymentsIndex = ({ payments }) => {
   const columns = [
     { key: 'id', label: 'ID' },
-    { key: 'invoice_id', label: 'Invoice ID' },
-    { key: 'user_id', label: 'Received By (User ID)' },
-    { key: 'amount', label: 'Amount' },
-    { key: 'status', label: 'Status' },
+    { key: 'student_name', label: 'Student' },
+    { key: 'invoice_type', label: 'Invoice Type' },
+    { key: 'amount_paid', label: 'Amount Paid' },
+    { key: 'date', label: 'Date' },
+    { key: 'payment_method', label: 'Method' },
+    { key: 'transaction_id', label: 'Transaction ID' },
+    { key: 'receiver_name', label: 'Received By' },
     { key: 'actions', label: 'Actions' },
   ];
 
-  const handleEdit = (id) => {
-    Inertia.visit(`/payments/${id}/edit`);
-  };
+  const handleEdit = (id) => Inertia.visit(`/payments/${id}/edit`);
 
   const handleDelete = (id) => {
-    if (confirm('Delete payment?')) {
+    if (confirm('Delete this payment?')) {
       Inertia.delete(`/payments/${id}`);
     }
   };
 
-  const data = payments.data.map((payment) => ({
-    ...payment,
-    actions: (
-      <>
-        <button onClick={() => handleEdit(payment.id)} className="mr-2 text-blue-600">Edit</button>
-        <button onClick={() => handleDelete(payment.id)} className="text-red-600">Delete</button>
-      </>
-    ),
-  }));
+  const data = payments.data.map((p) => {
+    const student = p.invoice?.enrollment?.student;
+    return {
+      ...p,
+      student_name: student ? `${student.first_name} ${student.last_name}` : '—',
+      invoice_type: p.invoice?.type ?? '—',
+      receiver_name: p.receiver?.name ?? '—',
+      actions: (
+        <>
+          <button onClick={() => handleEdit(p.id)} className="mr-2 text-blue-600">Edit</button>
+          <button onClick={() => handleDelete(p.id)} className="text-red-600">Delete</button>
+        </>
+      ),
+    };
+  });
 
   return (
     <div className="flex">

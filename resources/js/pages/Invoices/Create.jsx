@@ -3,19 +3,37 @@ import Sidebar from '../../Components/Sidebar';
 import Form from '../../Components/Form';
 import { Inertia } from '@inertiajs/inertia';
 
-const fields = [
-  { name: 'enrollment_id', label: 'Enrollment ID', type: 'number' },
-  { name: 'type', label: 'Type' },
-  { name: 'amount', label: 'Amount', type: 'number' },
-  { name: 'status', label: 'Status' },
+const TYPE_OPTIONS = [
+  { value: 'school_admission',   label: 'School Admission' },
+  { value: 'program_admission',  label: 'Program Admission' },
+  { value: 'program_monthly_fee', label: 'Program Monthly Fee' },
 ];
 
-const InvoicesCreate = () => {
-  const [values, setValues] = useState({});
+const STATUS_OPTIONS = [
+  { value: 'unpaid',  label: 'Unpaid' },
+  { value: 'partial', label: 'Partial' },
+  { value: 'paid',    label: 'Paid' },
+];
 
-  const handleChange = (e) => {
-    setValues({ ...values, [e.target.name]: e.target.value });
-  };
+const InvoicesCreate = ({ enrollments }) => {
+  const [values, setValues] = useState({ status: 'unpaid' });
+
+  const enrollmentOptions = enrollments.map((e) => ({
+    value: e.id,
+    label: e.student
+      ? `#${e.id} — ${e.student.first_name} ${e.student.last_name} (${e.type})`
+      : `#${e.id} (${e.type})`,
+  }));
+
+  const fields = [
+    { name: 'enrollment_id', label: 'Enrollment', type: 'select', options: enrollmentOptions },
+    { name: 'type',          label: 'Invoice Type', type: 'select', options: TYPE_OPTIONS },
+    { name: 'billing_term',  label: 'Billing Term' },
+    { name: 'total_amount',  label: 'Total Amount', type: 'number' },
+    { name: 'status',        label: 'Status', type: 'select', options: STATUS_OPTIONS },
+  ];
+
+  const handleChange = (e) => setValues({ ...values, [e.target.name]: e.target.value });
 
   const handleSubmit = (e) => {
     e.preventDefault();

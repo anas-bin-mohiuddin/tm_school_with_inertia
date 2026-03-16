@@ -13,6 +13,8 @@ use App\Http\Controllers\ClassSubjectController;
 use App\Http\Controllers\CourseController;
 use App\Http\Controllers\CourseBatchController;
 use App\Http\Controllers\BatchTeacherController;
+use App\Http\Controllers\ClassRoutineController;
+use App\Http\Controllers\AcademicSessionController;
 use App\Http\Controllers\AuthController;
 
 Route::get('/', function () {
@@ -36,4 +38,6 @@ Route::middleware('auth')->group(function () {
     Route::resource('courses', CourseController::class);
     Route::resource('course-batches', CourseBatchController::class);
     Route::resource('batch-teachers', BatchTeacherController::class);
+    Route::resource('class-routines', ClassRoutineController::class);
+    Route::resource('academic-sessions', AcademicSessionController::class);
 });

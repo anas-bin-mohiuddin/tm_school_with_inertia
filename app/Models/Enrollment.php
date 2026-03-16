@@ -6,7 +6,13 @@ use Illuminate\Database\Eloquent\Model;
 class Enrollment extends Model
 {
     protected $fillable = [
-        'school_id', 'student_id', 'class_id', 'section_id', 'course_batch_id', 'type', 'roll_number', 'academic_session_id'
+        'school_id', 'student_id', 'type', 'academic_session_id',
+        'class_id', 'section_id', 'course_batch_id',
+        'roll_number', 'admission_date', 'original_admission_fee', 'original_recurring_fee', 'status',
+    ];
+
+    protected $casts = [
+        'admission_date' => 'date:Y-m-d',
     ];
 
     public function school()
@@ -32,6 +38,11 @@ class Enrollment extends Model
     public function courseBatch()
     {
         return $this->belongsTo(CourseBatch::class);
+    }
+
+    public function academicSession()
+    {
+        return $this->belongsTo(AcademicSession::class);
     }
 
     public function invoices()
